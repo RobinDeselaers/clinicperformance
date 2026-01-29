@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>SIXT Agent Dashboard</title>
+<title>SIXT Agent Dashboard (DE)</title>
 
 <style>
     :root {
@@ -34,7 +34,7 @@
         /* SIXT uses deep blacks and high contrast for premium feel */
         background: var(--sixt-black);
         color: var(--text-white);
-        border-radius: 8px; /* Sharper corners than the clinic widget */
+        border-radius: 8px; 
         padding: 24px;
         box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         border-top: 4px solid var(--sixt-orange);
@@ -84,7 +84,7 @@
     .progress-container {
         width: 100%;
         background: var(--sixt-dark-grey);
-        border-radius: 4px; /* Less rounded */
+        border-radius: 4px;
         height: 12px;
         overflow: hidden;
         margin-bottom: 30px;
@@ -162,11 +162,13 @@
         text-align: center;
         font-size: 12px;
         color: var(--text-grey);
+        line-height: 1.5;
     }
     .next-step span {
         color: var(--sixt-orange);
         font-weight: bold;
         cursor: pointer;
+        text-transform: uppercase;
     }
 
 </style>
@@ -177,49 +179,56 @@
 <div class="widget">
 
     <div class="header-row">
-        <h2>Agent Performance</h2>
-        <div class="rank-badge">Branch Rank #2</div>
+        <h2>Meine Performance</h2>
+        <div class="rank-badge">Ranking: #2</div>
     </div>
 
+    <!-- Monthly Bonus / Commission Goal -->
     <div class="progress-label-row">
-        <span>Monthly Commission Goal</span>
+        <span>Provisionsziel (Monat)</span>
         <span class="progress-val-highlight">65%</span>
     </div>
     <div class="progress-container">
         <div class="progress-fill"></div>
     </div>
 
-    <div class="kpi-section-title">Todays Shift Stats</div>
+    <!-- KPI Section -->
+    <div class="kpi-section-title">Schicht-Statistik (Heute)</div>
 
     <div class="kpi-grid">
+        <!-- Metric 1: Upsell / Yield (The money maker) -->
         <div class="kpi-card high-perf">
             <div class="kpi-info">
-                <div class="kpi-label">Upsell Revenue</div>
-                <div class="kpi-value">€ 420.00</div>
+                <!-- "Upsell" is standard internal terminology -->
+                <div class="kpi-label">Upsell Umsatz</div>
+                <div class="kpi-value">€ 420,00</div>
             </div>
-            <div class="kpi-trend trend-up">▲ 12% vs Avg</div>
+            <div class="kpi-trend trend-up">▲ 12% über Ø</div>
         </div>
 
+        <!-- Metric 2: Protection / Insurance Penetration -->
         <div class="kpi-card high-perf">
             <div class="kpi-info">
-                <div class="kpi-label">Protection (LDW/SLI)</div>
+                <!-- "Protection Quote" is common Denglish -->
+                <div class="kpi-label">Protection Quote</div>
                 <div class="kpi-value">48%</div>
             </div>
-            <div class="kpi-trend trend-up">Target: 40%</div>
+            <div class="kpi-trend trend-up">Ziel: 40%</div>
         </div>
 
+        <!-- Metric 3: NPS / Customer Satisfaction -->
         <div class="kpi-card low-perf">
             <div class="kpi-info">
-                <div class="kpi-label">Net Promoter Score</div>
+                <div class="kpi-label">NPS (Kundenzufriedenheit)</div>
                 <div class="kpi-value">72</div>
             </div>
-            <div class="kpi-trend trend-down">▼ Needs attn.</div>
+            <div class="kpi-trend trend-down">▼ Handlungsbedarf</div>
         </div>
     </div>
 
     <div class="next-step">
-        2 Premium Upgrades available for next shift. <br>
-        <span>View Fleet Availability &rarr;</span>
+        2 Premium Upgrades in der Flotte verfügbar. <br>
+        <span>Flottenstatus öffnen &rarr;</span>
     </div>
 
 </div>
