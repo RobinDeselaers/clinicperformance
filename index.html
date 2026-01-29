@@ -10,8 +10,8 @@
         --sixt-orange: #ff5f00;
         --sixt-black: #191919;
         --sixt-white: #ffffff;
-        --trend-good: #ffffff; /* White text for positive trends pops against orange */
-        --trend-bad: #191919;  /* Black text for negative/warnings */
+        --trend-good: #ffffff; 
+        --trend-bad: #191919;  
     }
 
     * {
@@ -20,23 +20,28 @@
 
     body {
         font-family: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        background: #f4f4f4; 
-        padding: 40px 20px;
+        /* SEAMLESS BACKGROUND: Matches the widget color */
+        background: var(--sixt-orange); 
+        padding: 20px;
         margin: 0;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
     }
 
     .widget {
         width: 100%;
         max-width: 400px;
-        margin: auto;
-        /* Main background */
+        margin: 0 auto;
+        /* Transparent or matching background to ensure seamless look */
         background: var(--sixt-orange);
         color: var(--sixt-black);
-        border-radius: 20px; 
-        padding: 32px 24px;
-        box-shadow: 0 20px 40px rgba(255, 95, 0, 0.4);
+        /* Removed border-radius and shadow to fix "white frame" issue */
+        border-radius: 0; 
+        padding: 20px 0; /* Vertical padding only, horiz handled by container */
+        box-shadow: none;
         position: relative;
-        overflow: hidden;
+        overflow: visible; /* Changed to visible so it doesn't clip awkwardly */
     }
 
     /* Header Area */
@@ -66,7 +71,6 @@
         font-size: 11px;
         font-weight: 700;
         text-transform: uppercase;
-        /* Changed from white to black with opacity */
         color: rgba(25, 25, 25, 0.6); 
         display: block;
         margin-bottom: 4px;
@@ -75,7 +79,6 @@
     .rank-value {
         font-size: 22px;
         font-weight: 900;
-        /* Changed from white to black */
         color: var(--sixt-black);
         line-height: 1;
     }
@@ -100,7 +103,6 @@
 
     .progress-container {
         width: 100%;
-        /* Darker semi-transparent track for high contrast with white fill */
         background: rgba(0, 0, 0, 0.15); 
         border-radius: 6px;
         height: 16px; 
@@ -111,10 +113,8 @@
 
     .progress-fill {
         height: 100%;
-        width: 65%;
-        /* Bright White fill */
+        width: 0%; /* Start at 0 for animation */
         background: var(--sixt-white); 
-        /* Subtle texture */
         background-image: linear-gradient(
             45deg,
             rgba(0,0,0,0.05) 25%,
@@ -126,6 +126,7 @@
             transparent
         );
         background-size: 10px 10px;
+        transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     /* KPI Section */
@@ -147,7 +148,6 @@
     .kpi-row {
         display: flex;
         align-items: center;
-        /* Thick Bracket styling */
         border-left: 5px solid var(--sixt-black);
         border-radius: 2px;
         padding-left: 18px;
@@ -174,7 +174,7 @@
     .kpi-value {
         font-size: 36px;
         font-weight: 900;
-        color: var(--sixt-black); /* Black is boldest on Orange */
+        color: var(--sixt-black);
         letter-spacing: -1px;
         line-height: 1.1;
     }
@@ -212,7 +212,7 @@
         color: var(--sixt-black);
         line-height: 1.6;
         font-weight: 600;
-        background: rgba(255,255,255,0.2); /* Increased visibility */
+        background: rgba(255,255,255,0.2); 
         padding: 16px;
         border-radius: 12px;
         border: 1px solid rgba(255,255,255,0.1);
@@ -243,10 +243,10 @@
     <!-- Monthly Bonus / Commission Goal -->
     <div class="progress-label-row">
         <span>Provisionsziel (Monat)</span>
-        <span class="progress-percent">65%</span>
+        <span id="kpi-commission" class="progress-percent">0%</span>
     </div>
     <div class="progress-container">
-        <div class="progress-fill"></div>
+        <div id="progress-bar" class="progress-fill"></div>
     </div>
 
     <!-- KPI Section -->
@@ -257,7 +257,7 @@
         <div class="kpi-row">
             <div class="kpi-info">
                 <div class="kpi-label">Upsell Umsatz</div>
-                <div class="kpi-value">€ 420,00</div>
+                <div id="kpi-upsell" class="kpi-value">€ 0,00</div>
             </div>
             <div class="kpi-trend">
                 <span class="trend-text trend-up">▲ 12% über Ø</span>
@@ -268,7 +268,7 @@
         <div class="kpi-row">
             <div class="kpi-info">
                 <div class="kpi-label">Protection Quote</div>
-                <div class="kpi-value">48%</div>
+                <div id="kpi-protection" class="kpi-value">0%</div>
             </div>
             <div class="kpi-trend">
                 <span class="trend-text trend-up">Ziel: 40%</span>
@@ -279,7 +279,7 @@
         <div class="kpi-row low-bracket">
             <div class="kpi-info">
                 <div class="kpi-label">NPS (Kundenzufriedenheit)</div>
-                <div class="kpi-value">72</div>
+                <div id="kpi-nps" class="kpi-value">0</div>
             </div>
             <div class="kpi-trend">
                 <span class="trend-text trend-down">▼ Handlungsbedarf</span>
@@ -293,6 +293,76 @@
     </div>
 
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // 1. Animate Progress Bar
+    const progressBar = document.getElementById('progress-bar');
+    setTimeout(() => {
+        progressBar.style.width = '65%';
+    }, 100);
+
+    // 2. Animate Numbers helper function
+    const animateValue = (element, start, end, duration, formatter) => {
+        let startTimestamp = null;
+        const step = (timestamp) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+            
+            const easeProgress = 1 - (1 - progress) * (1 - progress);
+            
+            const currentVal = start + (end - start) * easeProgress;
+            element.innerHTML = formatter(currentVal);
+            
+            if (progress < 1) {
+                window.requestAnimationFrame(step);
+            } else {
+                element.innerHTML = formatter(end);
+            }
+        };
+        window.requestAnimationFrame(step);
+    };
+
+    // 3. Trigger Animations for KPIs
+
+    // Upsell (Currency) - Custom formatter to put € first: € 420,00
+    animateValue(
+        document.getElementById('kpi-upsell'), 
+        0, 
+        420, 
+        1500, 
+        (val) => '€ ' + val.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+    );
+
+    // Protection (Percentage)
+    animateValue(
+        document.getElementById('kpi-protection'), 
+        0, 
+        48, 
+        1500, 
+        (val) => Math.round(val) + '%'
+    );
+
+    // NPS (Integer)
+    animateValue(
+        document.getElementById('kpi-nps'), 
+        0, 
+        72, 
+        1500, 
+        (val) => Math.round(val)
+    );
+    
+    // Commission Goal (Percentage)
+    animateValue(
+        document.getElementById('kpi-commission'), 
+        0, 
+        65, 
+        1500, 
+        (val) => Math.round(val) + '%'
+    );
+});
+</script>
 
 </body>
 </html>
