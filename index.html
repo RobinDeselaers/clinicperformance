@@ -111,7 +111,7 @@
 
     .progress-fill {
         height: 100%;
-        width: 65%;
+        width: 0%; /* Start at 0 for animation */
         /* Bright White fill */
         background: var(--sixt-white); 
         /* Subtle texture */
@@ -126,6 +126,8 @@
             transparent
         );
         background-size: 10px 10px;
+        /* Smooth easing for the bar fill */
+        transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     /* KPI Section */
@@ -243,10 +245,10 @@
     <!-- Monthly Bonus / Commission Goal -->
     <div class="progress-label-row">
         <span>Provisionsziel (Monat)</span>
-        <span class="progress-percent">65%</span>
+        <span id="kpi-commission" class="progress-percent">0%</span>
     </div>
     <div class="progress-container">
-        <div class="progress-fill"></div>
+        <div id="progress-bar" class="progress-fill"></div>
     </div>
 
     <!-- KPI Section -->
@@ -257,7 +259,7 @@
         <div class="kpi-row">
             <div class="kpi-info">
                 <div class="kpi-label">Upsell Umsatz</div>
-                <div class="kpi-value">€ 420,00</div>
+                <div id="kpi-upsell" class="kpi-value">€ 0,00</div>
             </div>
             <div class="kpi-trend">
                 <span class="trend-text trend-up">▲ 12% über Ø</span>
@@ -268,7 +270,7 @@
         <div class="kpi-row">
             <div class="kpi-info">
                 <div class="kpi-label">Protection Quote</div>
-                <div class="kpi-value">48%</div>
+                <div id="kpi-protection" class="kpi-value">0%</div>
             </div>
             <div class="kpi-trend">
                 <span class="trend-text trend-up">Ziel: 40%</span>
@@ -279,7 +281,7 @@
         <div class="kpi-row low-bracket">
             <div class="kpi-info">
                 <div class="kpi-label">NPS (Kundenzufriedenheit)</div>
-                <div class="kpi-value">72</div>
+                <div id="kpi-nps" class="kpi-value">0</div>
             </div>
             <div class="kpi-trend">
                 <span class="trend-text trend-down">▼ Handlungsbedarf</span>
@@ -293,6 +295,80 @@
     </div>
 
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // 1. Animate Progress Bar
+    const progressBar = document.getElementById('progress-bar');
+    // We set a small timeout to allow the initial "width: 0" to render before applying the change
+    setTimeout(() => {
+        progressBar.style.width = '65%';
+    }, 100);
+
+    // 2. Animate Numbers helper function
+    // Uses cubic-bezier easing logic mathematically
+    const animateValue = (element, start, end, duration, formatter) => {
+        let startTimestamp = null;
+        const step = (timestamp) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+            
+            // EaseOutQuad function for natural deceleration
+            const easeProgress = 1 - (1 - progress) * (1 - progress);
+            
+            const currentVal = start + (end - start) * easeProgress;
+            element.innerHTML = formatter(currentVal);
+            
+            if (progress < 1) {
+                window.requestAnimationFrame(step);
+            } else {
+                // Ensure final value is exactly set
+                element.innerHTML = formatter(end);
+            }
+        };
+        window.requestAnimationFrame(step);
+    };
+
+    // 3. Trigger Animations for KPIs
+
+    // Upsell (Currency)
+    animateValue(
+        document.getElementById('kpi-upsell'), 
+        0, 
+        420, 
+        1500, // Duration in ms
+        (val) => val.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' })
+    );
+
+    // Protection (Percentage)
+    animateValue(
+        document.getElementById('kpi-protection'), 
+        0, 
+        48, 
+        1500, 
+        (val) => Math.round(val) + '%'
+    );
+
+    // NPS (Integer)
+    animateValue(
+        document.getElementById('kpi-nps'), 
+        0, 
+        72, 
+        1500, 
+        (val) => Math.round(val)
+    );
+    
+    // Commission Goal (Percentage)
+    animateValue(
+        document.getElementById('kpi-commission'), 
+        0, 
+        65, 
+        1500, 
+        (val) => Math.round(val) + '%'
+    );
+});
+</script>
 
 </body>
 </html>
