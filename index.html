@@ -9,10 +9,9 @@
     :root {
         --sixt-orange: #ff5f00;
         --sixt-black: #191919;
-        --sixt-dark-grey: #2d2d2d;
-        --sixt-silver: #f2f2f2;
-        --text-white: #ffffff;
-        --text-grey: #b3b3b3;
+        --sixt-white: #ffffff;
+        --trend-good: #50E3C2; /* Bright Turquoise for contrast on orange */
+        --trend-bad: #8B0000;  /* Dark red for contrast */
     }
 
     * {
@@ -21,8 +20,8 @@
 
     body {
         font-family: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        /* Simulating a dashboard background */
-        background: #e0e0e0; 
+        /* Grey background for the preview window so the orange widget pops */
+        background: #f4f4f4; 
         padding: 40px 20px;
         margin: 0;
     }
@@ -31,144 +30,162 @@
         width: 100%;
         max-width: 400px;
         margin: auto;
-        /* SIXT uses deep blacks and high contrast for premium feel */
-        background: var(--sixt-black);
-        color: var(--text-white);
-        border-radius: 8px; 
-        padding: 24px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        border-top: 4px solid var(--sixt-orange);
+        /* The main orange background from the screenshot */
+        background: var(--sixt-orange);
+        color: var(--sixt-black);
+        border-radius: 16px; 
+        padding: 32px 24px;
+        box-shadow: 0 10px 30px rgba(255, 95, 0, 0.3);
+        position: relative;
+        overflow: hidden;
     }
 
-    /* Header Area with Rank */
+    /* Header Area */
     .header-row {
         display: flex;
         justify-content: space-between;
-        align-items: center;
-        margin-bottom: 24px;
+        align-items: flex-start;
+        margin-bottom: 32px;
     }
 
     h2 {
         margin: 0;
-        font-size: 20px;
-        font-weight: 800; /* SIXT font is usually heavy/bold */
+        font-size: 24px;
+        font-weight: 900; 
         text-transform: uppercase;
-        letter-spacing: 0.5px;
+        line-height: 1.1;
+        color: var(--sixt-black);
+        max-width: 60%;
     }
 
-    .rank-badge {
-        background: var(--sixt-orange);
-        color: white;
-        padding: 4px 8px;
-        border-radius: 4px;
+    .rank-group {
+        text-align: right;
+    }
+
+    .rank-label {
+        font-size: 10px;
         font-weight: 700;
-        font-size: 12px;
         text-transform: uppercase;
+        color: rgba(255,255,255, 0.9);
+        display: block;
+        margin-bottom: 2px;
+    }
+
+    .rank-value {
+        font-size: 18px;
+        font-weight: 900;
+        color: var(--sixt-white);
     }
 
     /* Progress Section */
     .progress-label-row {
         display: flex;
         justify-content: space-between;
-        font-size: 13px;
-        color: var(--text-grey);
+        font-size: 12px;
+        color: var(--sixt-black);
         margin-bottom: 8px;
         text-transform: uppercase;
-        font-weight: 600;
-    }
-
-    .progress-val-highlight {
-        color: var(--sixt-orange);
+        font-weight: 800;
     }
 
     .progress-container {
         width: 100%;
-        background: var(--sixt-dark-grey);
+        /* Semi-transparent dark track */
+        background: rgba(0,0,0,0.1); 
         border-radius: 4px;
         height: 12px;
         overflow: hidden;
-        margin-bottom: 30px;
+        margin-bottom: 40px;
     }
 
     .progress-fill {
         height: 100%;
-        width: 65%; /* Current Commission Progress */
-        background: var(--sixt-orange);
-        /* Adding a subtle stripe effect for motion/speed */
-        background-image: linear-gradient(45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent);
-        background-size: 1rem 1rem;
+        width: 65%;
+        background: rgba(255,255,255,0.3);
+        /* Striped texture matching the reference */
+        background-image: linear-gradient(
+            45deg,
+            rgba(255,255,255,0.4) 25%,
+            transparent 25%,
+            transparent 50%,
+            rgba(255,255,255,0.4) 50%,
+            rgba(255,255,255,0.4) 75%,
+            transparent 75%,
+            transparent
+        );
+        background-size: 8px 8px;
     }
 
     /* KPI Section */
     .kpi-section-title {
-        margin: 0 0 12px 0;
+        margin: 0 0 20px 0;
         font-size: 12px;
-        font-weight: 700;
-        color: var(--text-grey);
+        font-weight: 800;
+        color: var(--sixt-black);
         text-transform: uppercase;
-        letter-spacing: 1px;
+        opacity: 0.8;
     }
 
     .kpi-grid {
         display: grid;
-        gap: 12px;
+        gap: 24px;
     }
 
-    .kpi-card {
-        width: 100%;
-        padding: 16px;
-        border-radius: 6px;
-        background: var(--sixt-dark-grey);
-        border-left: 3px solid transparent;
-        transition: transform 0.2s;
+    .kpi-row {
         display: flex;
-        justify-content: space-between;
         align-items: center;
+        /* The bracket styling */
+        border-left: 4px solid var(--sixt-black);
+        border-radius: 2px;
+        padding-left: 16px;
+        min-height: 60px;
     }
-
-    /* Contextual borders for performance */
-    .kpi-card.high-perf { border-left-color: var(--sixt-orange); }
-    .kpi-card.low-perf { border-left-color: #555; }
 
     .kpi-info {
-        display: flex;
-        flex-direction: column;
+        flex-grow: 1;
     }
 
     .kpi-label {
-        color: var(--text-grey);
-        font-size: 11px;
+        color: var(--sixt-black);
+        font-size: 10px;
         text-transform: uppercase;
-        font-weight: 600;
+        font-weight: 700;
         margin-bottom: 4px;
+        opacity: 0.9;
     }
 
     .kpi-value {
-        font-size: 22px;
-        font-weight: 800;
-        color: var(--text-white);
+        font-size: 28px;
+        font-weight: 900;
+        color: var(--sixt-black);
+        letter-spacing: -0.5px;
     }
 
     .kpi-trend {
         font-size: 12px;
-        font-weight: bold;
+        font-weight: 800;
+        text-align: right;
     }
-    .trend-up { color: #2ecc71; } /* Green for good */
-    .trend-down { color: #e74c3c; } /* Red for bad */
+    
+    .trend-up { color: var(--trend-good); }
+    .trend-down { color: #cf3f3f; /* Slightly lighter red for visibility */ }
 
     /* Footer / CTA */
     .next-step {
-        margin-top: 24px;
+        margin-top: 40px;
         text-align: center;
         font-size: 12px;
-        color: var(--text-grey);
+        color: var(--sixt-black);
         line-height: 1.5;
+        font-weight: 500;
     }
     .next-step span {
-        color: var(--sixt-orange);
-        font-weight: bold;
+        display: inline-block;
+        margin-top: 4px;
+        font-weight: 900;
         cursor: pointer;
         text-transform: uppercase;
+        border-bottom: 2px solid var(--sixt-black);
     }
 
 </style>
@@ -179,14 +196,17 @@
 <div class="widget">
 
     <div class="header-row">
-        <h2>Meine Performance</h2>
-        <div class="rank-badge">Ranking: #2</div>
+        <h2>Meine<br>Performance</h2>
+        <div class="rank-group">
+            <span class="rank-label">Ranking:</span>
+            <span class="rank-value">#2</span>
+        </div>
     </div>
 
     <!-- Monthly Bonus / Commission Goal -->
     <div class="progress-label-row">
         <span>Provisionsziel (Monat)</span>
-        <span class="progress-val-highlight">65%</span>
+        <span>65%</span>
     </div>
     <div class="progress-container">
         <div class="progress-fill"></div>
@@ -196,28 +216,26 @@
     <div class="kpi-section-title">Schicht-Statistik (Heute)</div>
 
     <div class="kpi-grid">
-        <!-- Metric 1: Upsell / Yield (The money maker) -->
-        <div class="kpi-card high-perf">
+        <!-- Metric 1: Upsell -->
+        <div class="kpi-row">
             <div class="kpi-info">
-                <!-- "Upsell" is standard internal terminology -->
                 <div class="kpi-label">Upsell Umsatz</div>
                 <div class="kpi-value">€ 420,00</div>
             </div>
             <div class="kpi-trend trend-up">▲ 12% über Ø</div>
         </div>
 
-        <!-- Metric 2: Protection / Insurance Penetration -->
-        <div class="kpi-card high-perf">
+        <!-- Metric 2: Protection -->
+        <div class="kpi-row">
             <div class="kpi-info">
-                <!-- "Protection Quote" is common Denglish -->
                 <div class="kpi-label">Protection Quote</div>
                 <div class="kpi-value">48%</div>
             </div>
             <div class="kpi-trend trend-up">Ziel: 40%</div>
         </div>
 
-        <!-- Metric 3: NPS / Customer Satisfaction -->
-        <div class="kpi-card low-perf">
+        <!-- Metric 3: NPS -->
+        <div class="kpi-row" style="border-left-color: rgba(0,0,0,0.3);">
             <div class="kpi-info">
                 <div class="kpi-label">NPS (Kundenzufriedenheit)</div>
                 <div class="kpi-value">72</div>
