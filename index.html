@@ -10,8 +10,8 @@
         --sixt-orange: #ff5f00;
         --sixt-black: #191919;
         --sixt-white: #ffffff;
-        --trend-good: #50E3C2; /* Bright Turquoise for contrast on orange */
-        --trend-bad: #8B0000;  /* Dark red for contrast */
+        --trend-good: #70ffdb; /* Brighter Turquoise for better contrast on orange */
+        --trend-bad: #191919;  /* Black for 'Bad' - highest contrast on orange */
     }
 
     * {
@@ -20,7 +20,6 @@
 
     body {
         font-family: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        /* Grey background for the preview window so the orange widget pops */
         background: #f4f4f4; 
         padding: 40px 20px;
         margin: 0;
@@ -30,12 +29,12 @@
         width: 100%;
         max-width: 400px;
         margin: auto;
-        /* The main orange background from the screenshot */
+        /* Main background */
         background: var(--sixt-orange);
         color: var(--sixt-black);
-        border-radius: 16px; 
+        border-radius: 20px; 
         padding: 32px 24px;
-        box-shadow: 0 10px 30px rgba(255, 95, 0, 0.3);
+        box-shadow: 0 20px 40px rgba(255, 95, 0, 0.4);
         position: relative;
         overflow: hidden;
     }
@@ -45,17 +44,18 @@
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
-        margin-bottom: 32px;
+        margin-bottom: 40px;
     }
 
     h2 {
         margin: 0;
-        font-size: 24px;
+        font-size: 26px;
         font-weight: 900; 
         text-transform: uppercase;
-        line-height: 1.1;
+        line-height: 1;
         color: var(--sixt-black);
-        max-width: 60%;
+        max-width: 65%;
+        letter-spacing: -0.5px;
     }
 
     .rank-group {
@@ -63,82 +63,96 @@
     }
 
     .rank-label {
-        font-size: 10px;
+        font-size: 11px;
         font-weight: 700;
         text-transform: uppercase;
-        color: rgba(255,255,255, 0.9);
+        color: rgba(255,255,255, 0.8);
         display: block;
-        margin-bottom: 2px;
+        margin-bottom: 4px;
     }
 
     .rank-value {
-        font-size: 18px;
+        font-size: 22px;
         font-weight: 900;
         color: var(--sixt-white);
+        line-height: 1;
     }
 
     /* Progress Section */
     .progress-label-row {
         display: flex;
         justify-content: space-between;
-        font-size: 12px;
+        align-items: flex-end;
+        font-size: 13px;
         color: var(--sixt-black);
-        margin-bottom: 8px;
+        margin-bottom: 10px;
         text-transform: uppercase;
         font-weight: 800;
+    }
+    
+    .progress-percent {
+        font-size: 18px;
+        color: var(--sixt-white); /* White number pops */
+        font-weight: 900;
     }
 
     .progress-container {
         width: 100%;
-        /* Semi-transparent dark track */
-        background: rgba(0,0,0,0.1); 
-        border-radius: 4px;
-        height: 12px;
+        background: rgba(0,0,0,0.15); /* Darker track */
+        border-radius: 6px;
+        height: 14px;
         overflow: hidden;
-        margin-bottom: 40px;
+        margin-bottom: 45px;
     }
 
     .progress-fill {
         height: 100%;
         width: 65%;
-        background: rgba(255,255,255,0.3);
-        /* Striped texture matching the reference */
+        background: var(--sixt-white); /* White fill */
+        /* Crisp diagonal stripes */
         background-image: linear-gradient(
             45deg,
-            rgba(255,255,255,0.4) 25%,
+            rgba(0,0,0,0.05) 25%,
             transparent 25%,
             transparent 50%,
-            rgba(255,255,255,0.4) 50%,
-            rgba(255,255,255,0.4) 75%,
+            rgba(0,0,0,0.05) 50%,
+            rgba(0,0,0,0.05) 75%,
             transparent 75%,
             transparent
         );
-        background-size: 8px 8px;
+        background-size: 10px 10px;
+        box-shadow: 2px 0 5px rgba(0,0,0,0.1);
     }
 
     /* KPI Section */
     .kpi-section-title {
-        margin: 0 0 20px 0;
+        margin: 0 0 24px 0;
         font-size: 12px;
         font-weight: 800;
         color: var(--sixt-black);
         text-transform: uppercase;
-        opacity: 0.8;
+        opacity: 0.7;
+        letter-spacing: 0.5px;
     }
 
     .kpi-grid {
         display: grid;
-        gap: 24px;
+        gap: 28px;
     }
 
     .kpi-row {
         display: flex;
         align-items: center;
-        /* The bracket styling */
-        border-left: 4px solid var(--sixt-black);
+        /* Thick Bracket styling */
+        border-left: 5px solid var(--sixt-black);
         border-radius: 2px;
-        padding-left: 16px;
+        padding-left: 18px;
         min-height: 60px;
+    }
+    
+    /* Subtle variation for different rows if needed */
+    .kpi-row.low-bracket {
+        border-left-color: rgba(25, 25, 25, 0.3); /* Lower contrast bracket for bad stats */
     }
 
     .kpi-info {
@@ -147,41 +161,48 @@
 
     .kpi-label {
         color: var(--sixt-black);
-        font-size: 10px;
+        font-size: 11px;
         text-transform: uppercase;
-        font-weight: 700;
-        margin-bottom: 4px;
+        font-weight: 800;
+        margin-bottom: 2px;
         opacity: 0.9;
     }
 
     .kpi-value {
-        font-size: 28px;
+        font-size: 36px; /* Larger */
         font-weight: 900;
-        color: var(--sixt-black);
-        letter-spacing: -0.5px;
+        color: var(--sixt-white); /* White Values */
+        letter-spacing: -1px;
+        line-height: 1.1;
     }
 
     .kpi-trend {
-        font-size: 12px;
+        font-size: 13px;
         font-weight: 800;
         text-align: right;
+        display: flex;
+        align-items: center;
+        gap: 4px;
     }
     
     .trend-up { color: var(--trend-good); }
-    .trend-down { color: #cf3f3f; /* Slightly lighter red for visibility */ }
+    .trend-down { color: var(--trend-bad); }
 
     /* Footer / CTA */
     .next-step {
-        margin-top: 40px;
+        margin-top: 50px;
         text-align: center;
-        font-size: 12px;
+        font-size: 13px;
         color: var(--sixt-black);
-        line-height: 1.5;
-        font-weight: 500;
+        line-height: 1.6;
+        font-weight: 600;
+        background: rgba(255,255,255,0.1); /* Subtle highlight behind text */
+        padding: 16px;
+        border-radius: 12px;
+        border: 1px solid rgba(0,0,0,0.05);
     }
     .next-step span {
         display: inline-block;
-        margin-top: 4px;
         font-weight: 900;
         cursor: pointer;
         text-transform: uppercase;
@@ -198,7 +219,7 @@
     <div class="header-row">
         <h2>Meine<br>Performance</h2>
         <div class="rank-group">
-            <span class="rank-label">Ranking:</span>
+            <span class="rank-label">Ranking</span>
             <span class="rank-value">#2</span>
         </div>
     </div>
@@ -206,7 +227,7 @@
     <!-- Monthly Bonus / Commission Goal -->
     <div class="progress-label-row">
         <span>Provisionsziel (Monat)</span>
-        <span>65%</span>
+        <span class="progress-percent">65%</span>
     </div>
     <div class="progress-container">
         <div class="progress-fill"></div>
@@ -235,7 +256,7 @@
         </div>
 
         <!-- Metric 3: NPS -->
-        <div class="kpi-row" style="border-left-color: rgba(0,0,0,0.3);">
+        <div class="kpi-row low-bracket">
             <div class="kpi-info">
                 <div class="kpi-label">NPS (Kundenzufriedenheit)</div>
                 <div class="kpi-value">72</div>
