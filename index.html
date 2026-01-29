@@ -66,7 +66,8 @@
         font-size: 11px;
         font-weight: 700;
         text-transform: uppercase;
-        color: rgba(255,255,255, 0.8);
+        /* Changed from white to black with opacity */
+        color: rgba(25, 25, 25, 0.6); 
         display: block;
         margin-bottom: 4px;
     }
@@ -74,7 +75,8 @@
     .rank-value {
         font-size: 22px;
         font-weight: 900;
-        color: var(--sixt-white);
+        /* Changed from white to black */
+        color: var(--sixt-black);
         line-height: 1;
     }
 
@@ -92,16 +94,16 @@
     
     .progress-percent {
         font-size: 18px;
-        color: var(--sixt-black); /* Changed to black for uniformity */
+        color: var(--sixt-black); 
         font-weight: 900;
     }
 
     .progress-container {
         width: 100%;
-        /* Lighter, milky white track for high contrast against black fill */
-        background: rgba(255,255,255,0.4); 
+        /* Darker semi-transparent track for high contrast with white fill */
+        background: rgba(0, 0, 0, 0.15); 
         border-radius: 6px;
-        height: 16px; /* Slightly thicker */
+        height: 16px; 
         overflow: hidden;
         margin-bottom: 45px;
         box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
@@ -110,15 +112,16 @@
     .progress-fill {
         height: 100%;
         width: 65%;
-        background: var(--sixt-black); /* Black fill - very distinct */
+        /* Bright White fill */
+        background: var(--sixt-white); 
         /* Subtle texture */
         background-image: linear-gradient(
             45deg,
-            rgba(255,255,255,0.15) 25%,
+            rgba(0,0,0,0.05) 25%,
             transparent 25%,
             transparent 50%,
-            rgba(255,255,255,0.15) 50%,
-            rgba(255,255,255,0.15) 75%,
+            rgba(0,0,0,0.05) 50%,
+            rgba(0,0,0,0.05) 75%,
             transparent 75%,
             transparent
         );
